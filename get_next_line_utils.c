@@ -77,3 +77,39 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	new[i] = '\0';
 	return (new);
 }
+
+char	*ft_strchr(const char *s, int c)
+{
+	char	*ptr;
+	char	needle;
+	int		i;
+
+	needle = c;
+	ptr = (char *)s;
+	i = 0;
+	while (ptr[i] != '\0')
+	{
+		if (ptr[i] == c)
+			return (ptr + i);
+		i++;
+	}
+	if (ptr[i] == c)
+		return (ptr + i);
+	return (NULL);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	unsigned char	*ptr;
+	unsigned int	i;
+
+	i = 0;
+	ptr = (unsigned char *)s;
+	if (n == 0)
+		return ;
+	while (i != n)
+	{
+		ptr[i] = 0;
+		i++;
+	}
+}
