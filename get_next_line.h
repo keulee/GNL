@@ -6,7 +6,7 @@
 /*   By: keulee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 20:10:11 by keulee            #+#    #+#             */
-/*   Updated: 2020/01/25 16:44:29 by keulee           ###   ########.fr       */
+/*   Updated: 2020/01/27 18:10:10 by keulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,7 @@
 int		get_next_line(int fd, char **line);
 char	*ft_strdup(const char *src);
 char	*ft_strjoin(const char *s1, const char *s2);
+char	*ft_strchr(const char *s, int c);
+void	ft_bzero(void *s, size_t n);
 
 #endif
