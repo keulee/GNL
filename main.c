@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "get_next_line.h"
+#include "get_next_line.h"
 #include <unistd.h>
 #include <stdio.h>
 #include <fcntl.h>
@@ -22,7 +22,8 @@
 int		main(void)
 {
 	int		fd;
-	char	buf[BUFFER_SIZE];
+	char	buf[BUFFER_SIZE+1];
+	char	*tmp;
 	int		ret;
 	int		i;
 	//char	*line;
@@ -34,21 +35,28 @@ int		main(void)
 		printf("fd success, fd is %d\n", fd);
 	//get_next_line(fd, &line);
 	//initialize buf with 0
-	memset(buf, 0x00, BUFFER_SIZE);
-	i = 0;
+	//memset(buf, 0x00, BUFFER_SIZE);
+	ft_bzero(buf, 0);
 	printf("BUFFER SIZE : %d\n", BUFFER_SIZE);
-	while((ret = read(fd, buf, BUFFER_SIZE-1)) > 0)
+	tmp = NULL;
+	while((ret = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
+		i = 0;
 		buf[ret] = '\0';
+		printf("*******************************\n");
 		printf("ret is : %d\n", ret);
-		printf("%s\n", buf);
-		while (i > ret)
-		{
-			if (buf[i] == '\n')
-				break;
-			i++;
-		}
+		if (tmp == NULL)
+			tmp = ft_strdup(buf);
+		else
+			tmp = ft_strjoin(tmp, buf);
+		printf("==str is : %s\n", tmp);
+		//printf("--buf is : %s\n", buf);
+		printf("******************************\n");
+		if (ft_strchr(buf, '\n'))
+			break;
 	}
+
+	printf("**total line : %s\n", tmp);
 	close(fd);
 	return (0);
 }
