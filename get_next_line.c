@@ -6,43 +6,48 @@
 /*   By: keulee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 20:09:16 by keulee            #+#    #+#             */
-/*   Updated: 2020/01/23 16:57:17 by keulee           ###   ########.fr       */
+/*   Updated: 2020/01/30 19:13:16 by keulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <unistd.h>
+#include <stdio.h>
 
 int		get_next_line(int fd, char **line)
 {
 	int		ret;
-	void	*buf;
-	char	buff;
-	/*
-	** error : -1
-	*/
+	char	buf[BUFFER_SIZE+1];
+	char	*str;
+	int		i;
+
+	i = 1;
+	str = NULL;
+	//bzero(buf, BUFFER_SIZE);
 	if (fd < 0 || line == NULL)
+	{
+		printf("fd Open Error\n");
 		return (-1);
-
-	/*
-	** file read : 1
-	*/
-	buff = (char *)buf;
-	else if
-		while ((ret = read(fd, buff, BUFFER_SIZE)) > 0)
-		{
-			buff[ret] = '\0';
-			printf("ret = %d\n", ret);
-			printf("phrase = %s\n", buff);
-			if (ft_end_of_line(buff) == 1)
-				break;
-		}
-		return (1);
-
-	/*
-	** file EOF : 0
-	*/
-	else if (ret = read(fd, buff, BUFFER_SIZE) == 0)
+	}
+	/*if ((ret = read(fd, buf, BUFFER_SIZE)) == 0)
+	{
+		printf("End Of File\n");
 		return (0);
-
+	}*/
+	while ((ret = read(fd, buf, BUFFER_SIZE)) > 0)
+	{
+		buf[ret] = '\0';
+		printf("%d try\n", i++);
+		printf("ret = %d\n", ret);
+		printf("buf = %s\n", buf);
+		if (str == NULL)
+			str = ft_strdup(buf);
+		else
+			str = ft_strjoin(str, buf);
+		printf("str phrase = %s\n", str);
+		if (ft_strchr(buf, '\n') == 1)
+			break;
+	}
+	if (ret == 0)
+		return (0);
+	return (1);
 }
