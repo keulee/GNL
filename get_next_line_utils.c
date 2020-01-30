@@ -6,26 +6,13 @@
 /*   By: keulee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 20:09:58 by keulee            #+#    #+#             */
-/*   Updated: 2020/01/25 16:47:36 by keulee           ###   ########.fr       */
+/*   Updated: 2020/01/30 18:02:07 by keulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-unsigned int	ft_end_of_line(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\n')
-		i++;
-	if (str[i] == '\n')
-		return (1);
-	else
-		return (0);
-}
-
-size_t		ft_strlen(const char *str)
+size_t	ft_strlen(const char *str)
 {
 	int i;
 
@@ -78,7 +65,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (new);
 }
 
-char	*ft_strchr(const char *s, int c)
+int		ft_strchr(const char *s, int c)
 {
 	char	*ptr;
 	char	needle;
@@ -90,26 +77,10 @@ char	*ft_strchr(const char *s, int c)
 	while (ptr[i] != '\0')
 	{
 		if (ptr[i] == c)
-			return (ptr + i);
+			return (1);
 		i++;
 	}
 	if (ptr[i] == c)
-		return (ptr + i);
-	return (NULL);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	unsigned char	*ptr;
-	unsigned int	i;
-
-	i = 0;
-	ptr = (unsigned char *)s;
-	if (n == 0)
-		return ;
-	while (i != n)
-	{
-		ptr[i] = 0;
-		i++;
-	}
+		return (1);
+	return (0);
 }
