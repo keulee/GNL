@@ -6,22 +6,22 @@
 /*   By: keulee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 20:09:16 by keulee            #+#    #+#             */
-/*   Updated: 2020/01/31 22:48:29 by keulee           ###   ########.fr       */
+/*   Updated: 2020/01/31 23:25:57 by keulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-char		*ft_new_str(char *str)
+char		**ft_have_line(char *str, char **line)
 {
-	unsigned int		i;
+	unsigned int	i;
 
 	i = 0;
-	if (str[i] != '\0' && str[i] != '\n')
+	while (str[i] != '\n')
 		i++;
-	str = ft_substr(str, i, ft_strlen(str));
-	return (str);
+	*line = ft_substr(str, 0, i);
+	return (line);
 }
 
 int			get_next_line(int fd, char **line)
@@ -46,11 +46,12 @@ int			get_next_line(int fd, char **line)
 			str = ft_strdup(buf);
 		else
 			str = ft_strjoin(str, buf);
-		printf("str phrase = %s\n", str);
+		//printf("str phrase = %s\n", str);
 		if (ft_strchr(buf, '\n') == 1)
 			break;
 	}
-	ft_new_str(str);
+	ft_have_line(str, line);
+	//printf("line : %s\n", line);
 	return (1);
 	if (ret == 0)
 	{
