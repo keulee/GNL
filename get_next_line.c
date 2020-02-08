@@ -13,14 +13,27 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
-char		**ft_have_line(char *str, char **line)
+char		**ft_line(char *str, char **line)
 {
 	unsigned int	i;
+    unsigned int    j;
+    char            *tmp;
+    char            *newstr;
 
 	i = 0;
-	while (str[i] != '\n')
+	while (str[i] != '\0' && str[i] != '\n')
 		i++;
-	*line = ft_substr(str, 0, i);
+    j = ft_strlen(&str[i]);
+    tmp = ft_substr(str, i + 1, j);
+    //printf("tmp : %s\n", tmp);
+	newstr = ft_substr(str, 0, i);
+    //printf("newstr: %s\n", newstr);
+    if (*line == NULL)
+        *line = ft_strdup(newstr);
+    else if (str[i] == '\n')
+    {
+        *line = ft_strjoin(tmp, newstr);
+    }
 	return (line);
 }
 
@@ -39,9 +52,8 @@ int			get_next_line(int fd, char **line)
 	while ((ret = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[ret] = '\0';
-		//printf("str = %s\n", str);
-		//printf("ret = %d\n", ret);
-		//printf("buf = %s\n", buf);
+		//printf("ret = %s\n", ret);
+		printf("buf = %s\n", buf);
 		if (str == NULL)
 			str = ft_strdup(buf);
 		else
@@ -50,8 +62,8 @@ int			get_next_line(int fd, char **line)
 		if (ft_strchr(buf, '\n') == 1)
 			break;
 	}
-	ft_have_line(str, line);
-	//printf("line : %s\n", line);
+	//printf("str phrase = %s\n", str);
+	ft_line(str, line);
 	return (1);
 	if (ret == 0)
 	{
