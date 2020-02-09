@@ -21,7 +21,7 @@ int		main(void)
 
 	line = NULL;
 	fd = open("test2.txt", O_RDONLY);
-	while (ret == get_next_line(fd, &line) > 0)
+	while ((ret = get_next_line(fd, &line)) > 0)
 	{
 		printf("ret : %d | line : %s\n", ret, line);
 	}
