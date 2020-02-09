@@ -22,7 +22,7 @@ char		**ft_line(char *str, char **line, char *tmp)
 	while (str[i] != '\0' && str[i] != '\n')
 		i++;
 	saveline = ft_substr(str, 0, i);
-	if (*line == NULL)
+    if (*line == NULL)
 		*line = ft_strdup(saveline);
 	else
 	{
@@ -51,15 +51,12 @@ int			get_next_line(int fd, char **line)
 	int					ret;
 	char				buf[BUFFER_SIZE+1];
 	char				*str;
-	static char *tmp;
+	static char         *tmp;
 	char				*tmp_line;
 
 	str = NULL;
-	if (fd < 0 || line == NULL || (read(fd, buf, 0)) < 0)
-	{
-		printf("fd Open Error\n");
+	if (fd < 0 || line == NULL || BUFFER_SIZE == 0)
 		return (-1);
-	}
 	while ((ret = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[ret] = '\0';

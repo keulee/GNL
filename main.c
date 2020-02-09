@@ -17,14 +17,16 @@ int		main(void)
 {
 	int		fd;
 	char	*line;
+    int     ret;
 
 	line = NULL;
-	fd = open("test.txt", O_RDONLY);
-	while (fd > 0)
+	fd = open("test2.txt", O_RDONLY);
+	while (ret == get_next_line(fd, &line) > 0)
 	{
-		printf("ret : %d | line : %s\n", get_next_line(fd, &line), line);
-		free(line);
+		printf("ret : %d | line : %s\n", ret, line);
 	}
+    if (ret == 0)
+        printf("ret : %d | EOF", ret);
 	close(fd);
 	return (0);
 }
