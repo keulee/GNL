@@ -6,7 +6,7 @@
 /*   By: keulee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 12:57:34 by keulee            #+#    #+#             */
-/*   Updated: 2020/02/08 21:59:32 by keulee           ###   ########.fr       */
+/*   Updated: 2020/02/16 04:03:47 by keulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ int		main(void)
 {
 	int		fd;
 	char	*line;
-    int     ret;
+	int		ret;
+	int		i;
 
-	line = NULL;
-	fd = open("test2.txt", O_RDONLY);
+	i = 0;
+	fd = open("all_the_good_girls_go_to_hell.txt", O_RDONLY);
 	while ((ret = get_next_line(fd, &line)) > 0)
 	{
-		printf("ret : %d | line : %s\n", ret, line);
+		printf("*%d time | ret : %d | line : %s\n", i++, ret, line);
 	}
-    if (ret == 0)
-        printf("ret : %d | EOF", ret);
+	printf("ret : %d | line : %s\n", ret, line);
 	close(fd);
 	return (0);
 }
