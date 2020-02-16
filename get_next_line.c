@@ -6,90 +6,97 @@
 /*   By: keulee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 20:09:16 by keulee            #+#    #+#             */
-/*   Updated: 2020/02/08 21:57:36 by keulee           ###   ########.fr       */
+/*   Updated: 2020/02/16 04:03:23 by keulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-/*char		**ft_line(char *str, char **line)
+int		ft_line(char *str, char **line, int ret)
 {
-	unsigned int	i;
-	//char			*saveline;
+	int		i;
 
 	i = 0;
-	while (str[i] != '\0' && str[i] != '\n')
-		i++;
-    if (i == 0)
-        (*line) = ft_strdup("");
-    /*if ()
-   else
-    {
-        *line = ft_substr(str, 0, i);
-        str = &str[i + 1];
-    }
-    printf("static str : %s\n", str);
-    if (*line == NULL)
-		*line = ft_strdup(saveline);
-	else
-		*line = ft_strjoin(tmp, saveline);
-    
-	return (line);
-}*/
+	if (str)
+	{
+		while (str[i] != '\0' && str[i] != '\n')
+			i++;
+	}
+	if (str[i] == '\n' && str[i] != '\0')
+	{
+		*line = ft_substr(str, 0, i);
+		return (1);
+	}
+	if (str[i] == '\n' && str[ret] == '\0')
+	{
+		*line = ft_strdup("");
+		return (1);
+	}
+	return (0);
+}
 
-char		*ft_save_the_rest(char *str, char *tmp)
+int		ft_eof(char *str, int ret, char **line)
 {
-	unsigned int		i;
-	unsigned int		j;
+	if (ret == 0 && (!str[ret] || str[0] == '\0'))
+	{
+		*line = ft_strdup("");
+		return (0);
+	}
+	return(1);
+}
+
+char	*ft_rest(char *str)
+{
+	int		i;
+	int		j;
 
 	i = 0;
-	while (str[i] != '\0' && str[i] != '\n')
+	j = ft_strlen(str);
+	if (str)
+	{
+		while (str[i] != '\0' && str[i] != '\n')
 		i++;
-	j = ft_strlen(&str[i]);
-	tmp = ft_substr(str, i + 1, j);
-	return (tmp);
+	}
+	if (str[i] == '\n' && str[i] != '\0')
+		str = ft_substr(str, i + 1, j);
+//	printf("str in ft_rest : %s\n", str);
+	return (str);
 }
 
-char        *ft_read_the_line(char *str, int fd)
+int		get_next_line(int fd, char **line)
 {
-    int     ret;
-    char    buf[BUFFER_SIZE+1];
-    char    *tmp;
+	int			ret;
+	char		buf[BUFFER_SIZE + 1];
+	static char	*str;
+	char		*tmp;
 
-    while ((ret = read(fd, buf, BUFFER_SIZE)) > 0)
-    {
-        buf[ret] = '\0';
-        if (str == NULL)
-            str = ft_strdup(buf);
-        else
-        {
-            tmp = str;
-            str = ft_strjoin(str, buf);
-            free(tmp);
-        }
-        if(ft_strchr(buf, '\n') == 1)
-            break;
-    }
-    return (str);
-}
-
-int			get_next_line(int fd, char **line)
-{
-	char				*str;
-	static char         *tmp;
-
-    str = NULL;
 	if (fd < 0 || line == NULL || BUFFER_SIZE == 0)
 		return (-1);
-    str = ft_read_the_line(str, fd);
-
-	line = ft_line(str, line);
-	tmp = ft_save_the_rest(str, tmp);
-	return (1);
-	/*if (ret == 0)
+	while ((ret = read(fd, buf, BUFFER_SIZE)) > 1)
 	{
-		printf("EOF");
+		//printf("ret: %d\n", ret);
+		buf[ret] = '\0';
+		//printf("buf : %s\n", buf);
+		if (str == NULL)
+			str = ft_strdup(buf);
+		else
+		{
+			tmp = str;
+			str = ft_strjoin(str, buf);
+			free(tmp);
+		}
+		if (ft_strchr(buf, '\n') == 1)
+			break;
+	}
+	//printf("str1 : %s\n", str);
+	if(ft_line(str, line, ret) == 1)
+	{
+		str = ft_rest(str);
+	//	printf("str2 : %s\n", str);
+		return (1);
+	}
+	if (ft_eof(str, ret, line) == 0)
 		return (0);
-	}*/
+	return (1);
 }
