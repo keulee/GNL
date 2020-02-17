@@ -73,7 +73,7 @@ int		get_next_line(int fd, char **line)
 
 	if (fd < 0 || line == NULL || BUFFER_SIZE == 0)
 		return (-1);
-	while ((ret = read(fd, buf, BUFFER_SIZE)) > 1)
+	while ((ret = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		//printf("ret: %d\n", ret);
 		buf[ret] = '\0';
