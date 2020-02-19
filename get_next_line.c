@@ -24,10 +24,7 @@ int		ft_line(char *str, char **line, int ret)
             i++;
     }
 	if (str != NULL && str[i] == '\n')
-    {
 		*line = ft_substr(str, 0, i);
-        return (1);
-    }
     if (ret == 0 && str == NULL)
     {
         *line = ft_strdup("");
@@ -71,15 +68,15 @@ char	*ft_rest(char *str)
 	return (str);
 }
 
-char    *ft_read_line(char *str, int fd)
+char    *ft_read_line(char *str, int fd, int *ret)
 {
-    int ret;
+
     char buf[BUFFER_SIZE + 1];
     char *tmp;
 
-	while ((ret = read(fd, buf, BUFFER_SIZE)) > 0)
+	while ((*ret = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
-		buf[ret] = '\0';
+		buf[*ret] = '\0';
 		if (str == NULL)
 			str = ft_strdup(buf);
 		else
@@ -96,7 +93,8 @@ char    *ft_read_line(char *str, int fd)
 
 int		get_next_line(int fd, char **line)
 {
-	int			len;
+	//int			len;
+    int         ret;
 	//char		buf[BUFFER_SIZE + 1];
 	static char	*str;
 	//char		*tmp;
@@ -104,8 +102,7 @@ int		get_next_line(int fd, char **line)
 
 	if (fd < 0 || line == NULL || BUFFER_SIZE == 0)
 		return (-1);
-    str = ft_read_line(str, fd);
-    len = ft_strlen(str);
+    str = ft_read_line(str, fd, &ret);
 	/*while ((ret = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[ret] = '\0';
@@ -120,7 +117,7 @@ int		get_next_line(int fd, char **line)
 		if (ft_strchr(str, '\n') == 1)
 			break;
 	}*/
-    value = ft_line(str, line, len);
+    value = ft_line(str, line, ret);
     if (value == 1)
     {
 		str = ft_rest(str);
