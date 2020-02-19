@@ -13,63 +13,70 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
-int		ft_line(char *str, char **line)
+int		ft_line(char *str, char **line, int ret)
 {
 	int		i;
 
 	i = 0;
-	while (str[i] != '\0' && str[i] != '\n')
-		i++;
-	if (str && str[i] != '\0')
-	{
+    if (str != NULL)
+    {
+        while (str[i] != '\0' && str[i] != '\n')
+            i++;
+    }
+	if (str != NULL && str[i] == '\n')
+    {
 		*line = ft_substr(str, 0, i);
-		return (1);
-	}
-	return (0);
-}
-
-int		ft_eof(char *str, int ret, char **line)
-{
-	int i;
-
-	i = 0;
-	while (str[i] != '\0' && str[i] != '\n')
-		i++;
-	if (ret == 0 && (!str))
-	{
-		*line = ft_strdup("");
-	}
-	if (ret == 0 && str[i] == '\0')
-	{
-		*line = ft_strdup(str);
-		free(str);
-	}
-	return(0);
+        return (1);
+    }
+    if (ret == 0 && str == NULL)
+    {
+        *line = ft_strdup("");
+        return (0);
+    }
+    if (ret == 0 && str[i] == '\0')
+    {
+        *line = ft_strdup(str);
+        return (0);
+    }
+    return (1);
 }
 
 char	*ft_rest(char *str)
 {
-	int		str_n;
-	int		str_len;
+	int		i;
+	int		str_len;;
+    char    *tmp;
 
-	str_n = 0;
+	i = 0;
 	str_len = ft_strlen(str);
-	while (str[str_n] != '\0' && str[str_n] != '\n')
-		str_n++;
-	if (str[str_n] == '\n' && str[str_n] != '\0')
-		str = ft_substr(str, str_n + 1, str_len);
+    if (str != NULL)
+    {
+        while (str[i] != '\0' && str[i] != '\n')
+            i++;
+    }
+    if (str[i] == '\n')
+    {
+        if ((str_len - i - 1 == 0) && str != NULL) 
+        {
+            free(str);
+            str = NULL;
+        }
+        else
+        {
+            tmp = str;
+            str = ft_substr(str, i + 1, str_len - i - 1);
+            free(tmp);
+        }
+    }
 	return (str);
 }
 
-int		get_next_line(int fd, char **line)
+char    *ft_read_line(char *str, int fd)
 {
-	int			ret;
-	char		buf[BUFFER_SIZE + 1];
-	static char	*str;
-	char		*tmp;
+    int ret;
+    char buf[BUFFER_SIZE + 1];
+    char *tmp;
 
-	if (fd < 0 || line == NULL || BUFFER_SIZE == 0)
-		return (-1);
 	while ((ret = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[ret] = '\0';
@@ -84,15 +91,45 @@ int		get_next_line(int fd, char **line)
 		if (ft_strchr(str, '\n') == 1)
 			break;
 	}
-	if(ft_line(str, line) == 1)
+    return (str);
+}
+
+int		get_next_line(int fd, char **line)
+{
+	int			len;
+	//char		buf[BUFFER_SIZE + 1];
+	static char	*str;
+	//char		*tmp;
+    int         value;
+
+	if (fd < 0 || line == NULL || BUFFER_SIZE == 0)
+		return (-1);
+    str = ft_read_line(str, fd);
+    len = ft_strlen(str);
+	/*while ((ret = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
+		buf[ret] = '\0';
+		if (str == NULL)
+			str = ft_strdup(buf);
+		else
+		{
+			tmp = str;
+			str = ft_strjoin(str, buf);
+			free(tmp);
+		}
+		if (ft_strchr(str, '\n') == 1)
+			break;
+	}*/
+    value = ft_line(str, line, len);
+    if (value == 1)
+    {
 		str = ft_rest(str);
-		return (1);
-	}
-	if (ft_eof(str, ret, line) == 0)
-	{
-		str = NULL;
-		return (0);
-	}
+        return (1);
+    }
+    if (value == 0)
+    {
+        str = NULL;
+        return (0);
+    }
 	return (1);
 }
