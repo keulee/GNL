@@ -6,7 +6,7 @@
 /*   By: keulee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 20:09:58 by keulee            #+#    #+#             */
-/*   Updated: 2020/01/31 22:41:24 by keulee           ###   ########.fr       */
+/*   Updated: 2020/02/19 17:42:31 by keulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlen(const char *str)
 	int i;
 
 	i = 0;
+	if (!str)
+		return (i);
 	while (str[i] != '\0')
 		i++;
 	return (i);
@@ -88,10 +90,8 @@ int		ft_strchr(const char *s, int c)
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char			*copy;
-	//unsigned int	i;
 	unsigned int	j;
 
-	//i = 0;
 	j = 0;
 	if (s == NULL)
 		return (NULL);
@@ -103,7 +103,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	{
 		copy[j++] = s[start++];
 		len--;
-		//i++;
 	}
 	copy[j] = '\0';
 	return (copy);
