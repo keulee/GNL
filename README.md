@@ -1,8 +1,8 @@
 # GNL
 get_next_line project
 
-_to do_ (updated 19.02.2020)
-3. (later) leaks 해결(valgrind)
+_to do_ (updated 22.02.2020)
+1. 보너스 linked list로 만들어보기
 
 _what I've finished_
 1. EOF 이후 str free해주기 (leaks 해결)
@@ -10,3 +10,4 @@ _what I've finished_
 1. BUFFER_SIZE = 1 및 10000000 segfault 해결 ㅇㅋㄷㅋ
 2. BUFFER_SIZE = 3 일때 무한 반복 해결 ㅇㅋㄷㅋ
 -> read 조건 고쳐서 해결
+3. (later) leaks 해결(valgrind)
