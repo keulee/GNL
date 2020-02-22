@@ -6,13 +6,13 @@
 /*   By: keulee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 20:09:58 by keulee            #+#    #+#             */
-/*   Updated: 2020/02/19 17:42:31 by keulee           ###   ########.fr       */
+/*   Updated: 2020/02/21 17:25:20 by keulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *str)
+size_t		ft_strlen(const char *str)
 {
 	int i;
 
@@ -44,7 +44,7 @@ char		*ft_strdup(const char *src)
 	return (copy);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char		*ft_strjoin(char const *s1, char const *s2)
 {
 	unsigned int	new_str_len;
 	unsigned int	i;
@@ -67,7 +67,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (new);
 }
 
-int		ft_strchr(const char *s, int c)
+int			ft_strchr(const char *s, int c)
 {
 	char	*ptr;
 	char	needle;
@@ -87,7 +87,7 @@ int		ft_strchr(const char *s, int c)
 	return (0);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char		*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char			*copy;
 	unsigned int	j;
