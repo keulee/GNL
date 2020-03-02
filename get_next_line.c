@@ -12,24 +12,26 @@
 
 #include "get_next_line.h"
 
+//function that fill the line with substr(malloc), strdup(malloc)
+//
 int			ft_line(char *str, char **line, int ret)
 {
 	int		i;
 
 	i = 0;
-	if (str != NULL)
+	if (str != NULL) // protect
 	{
 		while (str[i] != '\0' && str[i] != '\n')
 			i++;
 	}
-	if (str != NULL && str[i] == '\n')
+	if (str != NULL && str[i] == '\n') // general case
 		*line = ft_substr(str, 0, i);
-	if (ret == 0 && str == NULL)
+	if (ret == 0 && str == NULL) // empty line after \n
 	{
 		*line = ft_strdup("");
 		return (0);
 	}
-	if (ret == 0 && str[i] == '\0')
+	if (ret == 0 && str[i] == '\0') // last line 
 	{
 		*line = ft_strdup(str);
 		return (0);
@@ -37,11 +39,13 @@ int			ft_line(char *str, char **line, int ret)
 	return (1);
 }
 
+// function that put the string after \n in str
+//
 char		*ft_rest(char *str)
 {
 	int		i;
 	int		str_len;
-	char	*tmp;
+	char		*tmp;
 
 	i = 0;
 	str_len = ft_strlen(str);
@@ -59,6 +63,9 @@ char		*ft_rest(char *str)
 	return (str);
 }
 
+// function with read.
+// with this function fine the one whole line with \n.
+//
 char		*ft_read_line(char *str, int fd, int *ret)
 {
 	char	buf[BUFFER_SIZE + 1];
@@ -81,11 +88,13 @@ char		*ft_read_line(char *str, int fd, int *ret)
 	return (str);
 }
 
+// function get_next_line.
+//
 int			get_next_line(int fd, char **line)
 {
-	int				ret;
+	int			ret;
 	static char		*str;
-	int				value;
+	int			value;
 
 	if (fd < 0 || line == NULL || BUFFER_SIZE == 0)
 		return (-1);
