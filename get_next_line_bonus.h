@@ -6,12 +6,13 @@
 /*   By: keulee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 22:20:13 by keulee            #+#    #+#             */
-/*   Updated: 2020/02/21 22:20:41 by keulee           ###   ########.fr       */
+/*   Updated: 2020/02/24 16:47:26 by keulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
+# define FD_MAX 256
 
 # include <stdlib.h>
 # include <unistd.h>
