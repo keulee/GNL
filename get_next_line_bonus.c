@@ -6,60 +6,60 @@
 /*   By: keulee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 22:12:09 by keulee            #+#    #+#             */
-/*   Updated: 2020/02/21 22:12:47 by keulee           ###   ########.fr       */
+/*   Updated: 2020/02/24 17:06:37 by keulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-int			ft_line(char *str, char **line, int ret)
+int			ft_line(char *str[FD_MAX], char **line, int ret, int fd)
 {
 	int		i;
 
 	i = 0;
-	if (str != NULL)
+	if (str[fd] != NULL)
 	{
-		while (str[i] != '\0' && str[i] != '\n')
+		while (str[fd][i] != '\0' && str[fd][i] != '\n')
 			i++;
 	}
-	if (str != NULL && str[i] == '\n')
-		*line = ft_substr(str, 0, i);
-	if (ret == 0 && str == NULL)
+	if (str[fd] != NULL && str[fd][i] == '\n')
+		*line = ft_substr(str[fd], 0, i);
+	if (ret == 0 && str[fd] == NULL)
 	{
 		*line = ft_strdup("");
 		return (0);
 	}
-	if (ret == 0 && str[i] == '\0')
+	if (ret == 0 && str[fd][i] == '\0')
 	{
-		*line = ft_strdup(str);
+		*line = ft_strdup(str[fd]);
 		return (0);
 	}
 	return (1);
 }
 
-char		*ft_rest(char *str)
+char		*ft_rest(char *str[FD_MAX], int fd)
 {
 	int		i;
 	int		str_len;
 	char	*tmp;
 
 	i = 0;
-	str_len = ft_strlen(str);
-	if (str != NULL)
+	str_len = ft_strlen(str[fd]);
+	if (str[fd] != NULL)
 	{
-		while (str[i] != '\0' && str[i] != '\n')
+		while (str[fd][i] != '\0' && str[fd][i] != '\n')
 			i++;
 	}
-	if (str[i] == '\n' && str != NULL)
+	if (str[fd][i] == '\n' && str[fd] != NULL)
 	{
-		tmp = str;
-		str = ft_substr(str, i + 1, str_len - i - 1);
+		tmp = str[fd];
+		str[fd] = ft_substr(str[fd], i + 1, str_len - i - 1);
 		free(tmp);
 	}
-	return (str);
+	return (str[fd]);
 }
 
-char		*ft_read_line(char *str, int fd, int *ret)
+char		*ft_read_line(char *str[FD_MAX], int fd, int *ret)
 {
 	char	buf[BUFFER_SIZE + 1];
 	char	*tmp;
@@ -67,38 +67,38 @@ char		*ft_read_line(char *str, int fd, int *ret)
 	while ((*ret = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[*ret] = '\0';
-		if (str == NULL)
-			str = ft_strdup(buf);
+		if (str[fd] == NULL)
+			str[fd] = ft_strdup(buf);
 		else
 		{
-			tmp = str;
-			str = ft_strjoin(str, buf);
+			tmp = str[fd];
+			str[fd] = ft_strjoin(str[fd], buf);
 			free(tmp);
 		}
-		if (ft_strchr(str, '\n') == 1)
+		if (ft_strchr(str[fd], '\n') == 1)
 			break ;
 	}
-	return (str);
+	return (*str);
 }
 
 int			get_next_line(int fd, char **line)
 {
 	int				ret;
-	static char		*str;
+	static char		*str[FD_MAX];
 	int				value;
 
-	if (fd < 0 || line == NULL || BUFFER_SIZE == 0)
+	if (fd < 0 || line == NULL || BUFFER_SIZE == 0 || fd > FD_MAX)
 		return (-1);
-	str = ft_read_line(str, fd, &ret);
+	str[fd] = ft_read_line(&str[fd], fd, &ret);
 	if (ret < 0)
 		return (-1);
-	value = ft_line(str, line, ret);
+	value = ft_line(&str[fd], line, ret, fd);
 	if (value == 1)
-		str = ft_rest(str);
+		str[fd] = ft_rest(&str[fd], fd);
 	if (value == 0)
 	{
-		free(str);
-		str = NULL;
+		free(str[fd]);
+		str[fd] = NULL;
 		return (0);
 	}
 	return (1);
