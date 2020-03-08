@@ -1,5 +1,5 @@
-# GNL
-_get_next_line project_
+# GET_NEXT_LINE
+_42 get_next_line project (2019)_
 
 ## MANDATORY PART
 ```
