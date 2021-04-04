@@ -50,8 +50,6 @@ Turn-in all 3 initial files with _bonus for this part.
 
 
 _to do_ (updated 22.02.2020)
-1. 보너스 linked list로 만들어보기
-
 _what I've finished_
 1. EOF 이후 str free해주기 (leaks 해결)
 2. ft_rest 함수 재작성하기
